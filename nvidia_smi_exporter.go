@@ -41,13 +41,14 @@ func metrics(response http.ResponseWriter, request *http.Request) {
 	}
 
 	result := ""
+	metricPrefix := "nvidia_smi_"
 
 	for _, row := range records {
 		name := fmt.Sprintf("%s[%s]", row[0], row[1])
 
 		for idx, value := range row[2:] {
 			result = fmt.Sprintf(
-				"%s%s{gpu=\"%s\"} %s\n", result,
+				"%s%s%s{gpu=\"%s\"} %s\n", result, metricPrefix,
 				metricList[idx], name, value)
 		}
 	}
